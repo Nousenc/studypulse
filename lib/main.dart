@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'theme.dart';
 
 void main() => runApp(const StudyPulseApp());
 
@@ -7,9 +8,11 @@ class StudyPulseApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'StudyPulse',
-      home: Scaffold(body: Center(child: Text('StudyPulse'))),
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      home: const Scaffold(body: Center(child: Text('StudyPulse'))),
     );
   }
 }
