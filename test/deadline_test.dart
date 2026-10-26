@@ -32,6 +32,8 @@ void main() {
     };
     expect(Deadline.fromMoodle(json), isEmpty);
   });
+
+  emptyCourseListTests();
 }
 
 void emptyCourseListTests() {
