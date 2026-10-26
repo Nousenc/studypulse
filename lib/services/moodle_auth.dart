@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import '../config.dart';
 
 /// Gets a Moodle Web Services token for the student and keeps it
 /// only on the device, in encrypted storage. The password is never stored.
@@ -20,13 +21,13 @@ class MoodleAuthService {
 
   Future<String> requestToken(String username, String password) async {
     final response = await http.post(
-      Uri.parse('https://dl.nure.ua/login/token.php'),
+      Uri.parse('${AppConfig.moodleBaseUrl}/login/token.php'),
       body: {
         'username': username,
         'password': password,
         'service': 'moodle_mobile_app',
       },
-    );
+    ).timeout(AppConfig.requestTimeout);
     final data = jsonDecode(response.body) as Map<String, dynamic>;
     if (data['token'] == null) {
       // Moodle returns {"error": "...", "errorcode": "invalidlogin"}
