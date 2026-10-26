@@ -33,3 +33,9 @@ void main() {
     expect(Deadline.fromMoodle(json), isEmpty);
   });
 }
+
+void emptyCourseListTests() {
+  test('returns empty list when student has no courses', () {
+    expect(Deadline.fromMoodle({'courses': []}), isEmpty);
+  });
+}
