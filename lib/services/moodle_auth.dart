@@ -4,6 +4,13 @@ import 'package:http/http.dart' as http;
 
 /// Gets a Moodle Web Services token for the student and keeps it
 /// only on the device, in encrypted storage. The password is never stored.
+class InvalidLoginException implements Exception {
+  InvalidLoginException(this.message);
+  final String message;
+  @override
+  String toString() => message;
+}
+
 class MoodleAuthService {
   MoodleAuthService({FlutterSecureStorage? storage})
       : _storage = storage ?? const FlutterSecureStorage();
@@ -21,6 +28,11 @@ class MoodleAuthService {
       },
     );
     final data = jsonDecode(response.body) as Map<String, dynamic>;
+    if (data['token'] == null) {
+      // Moodle returns {"error": "...", "errorcode": "invalidlogin"}
+      throw InvalidLoginException(
+          data['error'] as String? ?? 'Invalid login, please try again');
+    }
     final token = data['token'] as String;
     await _storage.write(key: _tokenKey, value: token);
     return token;
