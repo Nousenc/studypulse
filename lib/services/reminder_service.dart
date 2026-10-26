@@ -12,6 +12,7 @@ class ReminderService {
   static const quietHoursStart = 23;
   static const quietHoursEnd = 8;
 
+  /// True if a reminder at [t] would fall into quiet hours.
   bool isQuietHour(DateTime t) => t.hour >= quietHoursStart || t.hour < quietHoursEnd;
 
   /// Returns reminder times that are still in the future.
